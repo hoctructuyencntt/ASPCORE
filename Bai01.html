@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 1: Thêm một Controller</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 1: Thêm một
+        Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Thêm một Controller</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Baimodau.html">Bài trước</a>
+          <a href="Bai02.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Mô hình MVC</a>
+          </li>
+          <li><a href="#muc2">Thêm một Controller đến ứng dụng ASP.NET Core</a>
+          </li>
+          <li><a href="#muc3">Thực thi các chức năng từ các trang Controllers trong ASP.NET Core</a></li>
+          <li><a href="#muc4">Chuỗi truy vấn (query string) và cơ chế model binding</a></li>
+        </ol>
+      </div>
+      <p>Trong bài <a href="Baimodau.html">Giới thiệu ASP.NET Core</a>, chúng ta đã tìm hiểu tổng quan, cách tạo một ứng
+        dụng ASP.NET Core MVC và lý do
+        chọn ASP.NET Core MVC như là một lựa chọn tối ưu cho những nhà phát triển Web vừa mới làm quen với môi trường
+        .NET
+        hay đang muốn xây dựng một ứng dụng ASP.NET hoàn toàn mới.</p>
+      <h3 id="muc1"><b>Mô hình MVC</b></h3>
+      <p>Một ứng dụng web gồm 3 phần chính: Giao diện người dùng (UI), dữ liệu từ người dùng (Data) và xử lý dữ liệu
+        theo
+        các quy tắc nghiệp vụ mà ứng dụng hướng đến. Công nghệ ASP.NET truyền thống như <a
+          href="https://ngocminhtran.com/asp-net-4-5/">ASP.NET Web Forms</a> tích hợp chung cả 3 phần khiến cho ứng dụng
+        trở nên cồng kềnh, khó đọc
+        và
+        khó bảo trì cho đến khi xuất hiện ASP.NET MVC.</p>
+      <p>Với việc phát triển ứng dụng ASP.NET dùng mô hình MVC, các thành phần giao diện, xử lý nghiệp vụ và dữ liệu
+        người
+        dùng được tách bạch trong 3 thành phần:</p>
+      <ul>
+        <li>Model (chữ M): Là thành phần chứa các lớp thể hiện dữ liệu người dùng
+        <li>View (chữ V): Là thành phần hiển thị dữ liệu người dùng, nghĩa là cho phép người dùng nhập dữ liệu, xem dữ
+          liệu
+          từ cơ sở dữ liệu
+        <li>Controller (chữ C): Là thành phần chứa các lớp xử lý và hồi đáp các yêu cầu từ người dùng theo các quy tắc
+          nghiệp vụ
+      </ul>
+      <p>Trong bài <a href="Baimodau.html">Giới thiệu ASP.NET Core</a> chúng ta đã tạo một ứng dụng ASP.NET Core dùng mô
+        hình MVC quản lý sách tên
+        MVCBooks và để ý rằng trong cửa sổ Solution Explorer có 3 thư mục Models, Views và Controllers tương ứng 3 thành
+        phần của mô hình MVC.</p>
+      <p>Việc phân chia các thành phần trong mô hình MVC làm cho việc quản lý độ phức tạp khi phát triển một ứng dụng
+        web
+        trở nên dễ dàng và hiệu quả hơn bởi vì nó cho phép chúng ta làm việc trên một thành phần của ứng dụng như Views,
+        Models hay Controllers tại một thời điểm mà không ảnh hưởng đến các thành phần khác.
+        Chúng ta sẽ khám phá các thành phần này cụ thể hơn trong quá trình xây dựng ứng dụng MVCBooks.</p>
+
+      <h3 id="muc2"><b>Thêm một Controller đến ứng dụng ASP.NET Core</b></h3>
+      <p>Trong bài viết này chúng ta sẽ thêm một Controller đến ứng dụng ASP.NET Core, cụ thể hơn là ứng dụng MVCBooks
+        bằng
+        cách nhấn chuột phải vào thư mục Controllers trong cửa sổ Solution Explorer chọn Add > Controller...:</p>
+      <img class="center" src="img/bai01_1.png">
+      <p>Kế tiếp chọn MVC Controller – Empty trong hộp thoại Add New Scaffold Item và nhấn nút Add</p>
+      <img class="center" src="img/bai01_2.png">
+      <p>Cuối cùng, trong hộp thoại Add New Item - MVCBooks gõ FirstController.cs trong mục Name (Mặc định là
+        HomeController1.cs) và nhấn Add.</p>
+      <p>Như vậy, chúng ta đã thêm một Controller tên FirstController trong thư mục Controllers từ cửa sổ Solution
+        Explorer
+        (bên cạnh HomeController mặc định)</p>
+      <img class="center" src="img/bai01_3.png">
+      <p><i>* Chú ý:</i> Tên một Controller là sự kết hợp của một từ bất kỳ do chúng ta định nghĩa (như First hay Home)
+        và từ thứ
+        hai là Controller.</p>
+      <p>Nội dung mặc định của tập tin FirstCotroller.cs là:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/3c36d557e2f5e70618f636eb84132025.js"></script>
+      <p>Thay đổi hàm Index như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/cc48f08ecd482b646f1b4bf7f6601384.js"></script>
+      <p>Thực thi ứng dụng bằng cách chọn Debug > Start Without Debugging, địa chỉ trên trình duyệt là
+        https://localhost:7170/ với giao thức HTTPS và vị trí web server cục bộ (localhost) kết hợp với cổng TCP (7170).
+        Địa chỉ này khác nhau tùy theo máy cá nhân.</p>
+      <p>Sau dấu / của địa chỉ trên thêm vào từ First (địa chỉ lúc này là https://localhost:7170/First ) và nhấn enter:
+      </p>
+      <img class="center" src="img/bai01_4.png">
+      <p>Vì sao chúng ta gõ First ở đây?</p>
+      <h3 id="muc3"><b>Thực thi các chức năng từ các trang Controllers trong ASP.NET Core</b></h3>
+      <p>MVC sẽ thực thi các lớp controller phụ thuộc vào URL. Mặc định, URL được sử dụng bởi MVC có định dạng quy định
+        tại
+        tham số pattern của phương thức MapControllerRoute như sau:</p>
+      <p><i>/[controller]/[action]/[tham số]</i></p>
+      <p>Định dạng như trên trong ASP.NET Core gọi là <a
+          href="https://learn.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-6.0">định tuyến
+          đến các hành động của controller (URL Routing logic)</a> có thể được thiết
+        lập
+        trong tập tin Program.cs (gần cuối nội dung tập tin)</p>
+      <script src="https://gist.github.com/hoctructuyencntt/5e2a5d16c60ec2547f1e94c247854fe8.js"></script>
+      <p>Trong phần đặt tên cho tập tin Controller chúng ta có lưu ý rằng, phần tên là sự kết hợp của một từ do người
+        dùng
+        định nghĩa (First hay Home) và từ Controller. Từ do người dùng định nghĩa chính là tham số {controller} tại mục
+        pattern.</p>
+      <p>Khi chúng ta thực hiện ứng dụng lần đầu tiên với URL là https://localhost:7170/ thì HomeController sẽ thực thi
+        hành động của nó, URL cụ thể trong trường hợp này là https://localhost:7170/Home , tuy nhiên chúng ta định nghĩa
+        Home là Controller mặc định nên từ Home có thể bỏ qua trong URL. Để kiểm chứng điều này, chúng ta thay đổi từ
+        Home
+        bằng từ First tại {controller}</p>
+      <script src="https://gist.github.com/hoctructuyencntt/975eef73911e6a3ffc4c16e0d8501458.js"></script>
+      <p>Lưu và thực thi với Debug > Start Without Debugging</p>
+      <img class="center" src="img/bai01_5.png">
+      <p>Lúc này FirstController là mặc định nên chúng ta không cần gõ thêm từ First trong URL. Gõ lại Home để
+        HomeController là phương thức mặc định.</p>
+      <p>Mỗi phương thức phạm vi public trong một Controller là tham số {action} tại patern trong định dạng URL. Mặc
+        định,
+        phương thức tên Index sẽ thực thi đầu tiên khi gọi một Controller.</p>
+      <p>Ví dụ URL https://localhost:7170/First thực thi phương thức Index của FirstController. (URL đầy đủ có thể là
+        https://localhost:7170/First/Index )</p>
+      <p>Cũng cần để ý rằng, trong một lớp Controller chứa nhiều phương thức public, ví dụ bổ sung thêm phương thức
+        Welcome
+        đến lớp FirstController như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f1f5109e8cc598c17828b0c6652a68aa.js"></script>
+      <p>Phương thức Index là mặc định nên có thể được bỏ qua nhưng muốn thực thi Welcome thì cần chỉ rõ tên phương thức
+        này: https://localhost:7170/First/Welcome</p>
+      <img class="center" src="img/bai01_6.png">
+      <h3 id="muc4"><b>Chuỗi truy vấn (query string) và cơ chế model binding</b></h3>
+      <p> Để hiểu về tham số thứ 3 ({id?} tại pattern) trong định dạng URL chúng ta thay đổi phương thức Welcome như
+        sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/ac2171fc20832c5448b5b07e68d02cc9.js"></script>
+      <p>Một số lưu ý:</p>
+      <ul>
+        <li>Thêm hai tham số đến phương thức Welcome, trong đó tham số Tuoi được khởi tạo bằng 1 nếu không có giá trị
+          nào
+          được gán đến tham số này.
+        <li>Dùng phương thức HtmlEncoder.Default.Encode (thuộc namespace System.Text.Encodings.Web) để bảo vệ ứng dụng
+          khỏi
+          các mã độc từ dữ liệu người dùng (ví dụ các đoạn mã JavaScript).
+        <li>Dùng tính năng String Interpolation của C# (có thể xem lại <a
+            href="https://ngocminhtran.com/2019/11/25/cac-dac-trung-huu-ich-trong-c-phan-1/">tại đây</a>
+          ) với định dạng chuỗi $"Xin chao
+          {HovaTen}, Co phai tuoi cua ban la: {Tuoi}"
+      </ul>
+      <p>Thực thi ứng dụng với URL https://localhost:7170/First/Welcome</p>
+      <img class="center" src="img/bai01_7.png">
+      <p>Bây giờ, thay đổi lại URL thành https://localhost:7170/First/Welcome?HovaTen=Minh&Tuoi=35 , kết quả:</p>
+      <img class="center" src="img/bai01_8.png">
+      <p>Các giá trị (Minh và 35) được chuyển đến hai tham số HovaTen và Tuoi từ phương thức Welcome thông qua chuỗi
+        truy
+        vấn (query string). Chuỗi truy vấn là một phần của URL sau dấu ? và các tham số được nối với nhau bởi dấu &.</p>
+      <p>Chúng ta xem lại phần định nghĩa URL từ tập tin Program.cs:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/02faaba34f7cb5609f3e414c9daf2b10.js"></script>
+      <p>Định nghĩa mặc định cho tham số thứ 3 của URL là id? với id là tên tham số mặc định và dấu ? là dấu ngăn cách
+        mặc
+        định giữa chuỗi truy vấn và phần còn lại của URL. Thay đổi id? bằng HovaTen?</p>
+      <p><i>pattern: "{controller=First}/{action=Index}/{HovaTen?}";</i></p>
+      <p>Thực thi lại ứng dụng với URL https://localhost:7170/First/Welcome/Minh?Tuoi=35 sẽ cho kết quả như khi dùng URL
+        https://localhost:7170/First/Welcome?HovaTen=Minh&Tuoi=35</p>
+      <img class="center" src="img/bai01_9.png">
+      <p>Để ý rằng, vì chúng ta thay đổi tên mặc định cho tham số thứ 3 (Parameters) từ id sang HovaTen, đồng thời
+        HovaTen
+        là tham số của phương thức Welcome nên chúng ta chỉ cần truyền giá trị (Minh) mà không cần chỉ rõ tên tham số
+        (HovaTen).</p>
+      <p>Bí ẩn phía sau cách hoạt động của tham số thứ 3 (Parameters) và cách các giá trị được chuyển đến các tham số
+        của
+        phương thức Welcome thông qua chuỗi truy vấn chính là cơ chế model binding. Cơ chế model binding giúp:</p>
+      <ul>
+        <li>Nhận dữ liệu từ các nguồn khác nhau như từ các trường của form hay các chuỗi truy vấn
+        <li>Cung cấp dữ liệu đến các trang Controllers và Razor thông qua các tham số phương thức (như các ví dụ nêu
+          trên)
+          hay các thuộc tính phạm vi public.
+        <li>Chuyển dữ liệu kiểu chuỗi sang các kiểu .NET
+        <li>Cập nhật thuộc tính của các kiểu phức tạp.
+      </ul>
+      <p>Cơ chế model binding sẽ tìm các gia trị từ các:</p>
+      <ul>
+        <li>Tham số của các phương thức từ các Controllers mà yêu cầu người dùng hướng tới
+        <li>Tham số của các phương thức từ các trang Razor mà yêu cầu người dùng hướng tới
+        <li>Các thuộc tính public của một controller hay lớp PageModel
+      </ul>
+      <p>Tham khảo chi tiết về model binding <a
+          href="https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-6.0">tại đây</a>.
+      </p>
+
+      <p>
+        Qua bài này chúng ta đã cùng tìm hiểu cách thức thêm thành phần Controller đến ứng dụng ASP.NET Core và cũng đã
+        làm quen (hay nhắc lại) các khái niệm như URL routing logic, model binding, query string, string interpolation.
+        Hai thành phần còn lại là View (chữ V) và Model (chữ M) của mô hình MVC chúng ta sẽ tìm hiểu trong các bài viết
+        tiếp theo.</p>
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Baimodau.html">Bài trước</a>
+          <a href="Bai02.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>

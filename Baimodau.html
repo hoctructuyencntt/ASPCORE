@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html>
+<title>Bài mở đầu: Giới thiệu ASP.NET Core MVC</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Giới thiệu ASP.NET Core MVC</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai01.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Ưu điểm và hạn chế của ASP.NET</a>
+          </li>
+          <li><a href="#muc2">ASP.NET Core là gì?</a>
+          </li>
+          <li><a href="#muc3">Khi nào lựa chọn ASP.NET Core </a>
+
+          <li><a href="#muc4">HTTP Request và HTTP Response</a></li>
+          <li><a href="#muc5">Cách ASP.NET Core làm việc</a></li>
+          <li><a href="#muc6">Tạo và thực thi ứng dụng ASP.NET Core</a></li>
+          <li><a href="#muc7">Cấu trúc một dự án ASP.NET Core MVC</a></li>
+          <li><a href="#muc8">Xử lý yêu cầu thông qua mô hình MVC</a></li>
+        </ol>
+      </div>
+      <p>ASP.NET Core là công nghệ phát triển ứng dụng web dựa trên hai nền tảng .NET Framework và .NET Core của
+        Microsoft
+        (Phân biệt .NET Core và .NET Framework có thể tham khảo <a
+          href="https://ngocminhtran.com/2020/02/09/net-core-ung-dung-console-dau-tien-va-cach-debug/">tại đây</a>
+        ). MVC (Model View
+        Controller) là mô hình phổ biến dùng để tách bạch dữ liệu, quy tắc nghiệp vụ và giao diện người dùng trong các
+        dự
+        án phát triển web. Công nghệ ASP.NET dựa trên hai nền tảng hoàn toàn khác nhau: ASP.NET dựa trên .NET Framework
+        và
+        ASP.NET dựa trên .NET Framework và .NET Core. Bài viết này là bài viết đầu tiên trong loạt bài viết giới thiệu
+        về
+        ASP.NET Core MVC hướng tới xây dựng một ứng dụng web sử dụng môi trường <i>Visual Studio 2022 Community</i>.</p>
+      <h3 id="muc1"><b>Ưu điểm và hạn chế của ASP.NET</b></h3>
+      <p>ASP.NET Core là phiên bản tiến hóa mới nhất của công nghệ ASP.NET, kế thừa những tính năng nổi trội từ ASP.NET
+        cũ
+        nhưng ASP.NET Core là nền tảng hoàn toàn mới, khác biệt so với ASP.NET trước đây. Để hiểu tại sao Microsoft lại
+        quyết định xây dựng một nền tảng công nghệ hoàn toàn mới thay vì phát triển ASP.NET hiện có thì chúng ta cần
+        hiểu
+        một số ưu điểm và hạn chế của ASP.NET.</p>
+      <p>ASP.NET xuất hiện lần đầu vào năm 2002 như là một phần của .NET Framework 1.0. Ứng dụng ASP.NET lúc này là
+        ASP.NET
+        Web Forms cho phép tạo các ứng dụng dựa trên giao diện đồ họa và mô hình hướng sự kiện. Theo thời gian, với việc
+        các ứng dụng ASP.NET Web Forms trở nên cồng kềnh, khó bảo trì nên đến năm 2009, Microsoft cho ra đời phiên bản
+        ASP.NET MVC nhằm tạo các ứng dụng web dựa trên mô hình MVC. Dù có nhiều ưu điểm nổi bật hơn ASP.NET Web Forms
+        nhưng cả hai cùng dựa vào một nền tảng với tập tin trọng tâm System.Web.dll. Sự phụ thuộc này kế thừa một số ưu
+        điểm của .NET Framework như tính tin cậy cao và nhiều tính năng thuận tiện cho sự phát triển các ứng dụng web
+        hiện
+        đại trên nền tảng Windows, đồng thời cũng mang lại một số hạn chế. Sự hạn chế đầu tiên là sự thay đổi chậm chạp
+        về
+        nội dung trong tập tin System.Web.dll ảnh hưởng lớn đến khả năng mở rộng của ASP.NET, bên cạnh đó, các ứng dụng
+        web hiện đại đòi hỏi thực thi đa nền (cross platform) tức là không chỉ thực thi trên Windows mà còn trên Linux
+        hay
+        MacOS.</p>
+      <h3 id="muc2"><b>ASP.NET Core là gì?</b></h3>
+      <p>.NET Core là một nền tảng mã nguồn mở được Microsoft giới thiệu lần đầu tiên năm 2014 và trở thành một trong
+        những
+        nền tảng phổ biến nhất hiện nay (có thể tham khảo thêm <a
+          href="https://ngocminhtran.com/2020/02/09/net-core-ung-dung-console-dau-tien-va-cach-debug/">tại đây</a>
+        ). Với .NET Core, Microsoft
+        có thể xây dựng một nền tảng công nghệ web thỏa mãn 4 mục tiêu:</p>
+      <ul>
+        <li>Thực thi và phát triển đa nền (Linux, Windows, MacOS)
+        <li>Kiến trúc mô đun để dễ dàng bảo trì
+        <li>Phát triển như phần mềm mã nguồn mở
+        <li>Tương thích với khuynh hướng phát triển web hiện tại như ứng dụng hướng client hay môi trường đám mây
+      </ul>
+      <p>Và ASP.NET Core - tức công nghệ ASP.NET kế thừa nền tảng cũ .NET Framework và phát triển thêm những tính năng
+        mới
+        trên nền tảng .NET Core - ra đời.</p>
+      <figure>
+        <img class="center" src="img/md_1.png">
+        <figcaption class="center">Hình ảnh mô tả mối quan hệ giữa các nền tảng công nghệ web của Microsoft</figcaption>
+      </figure>
+      <p>.NET Core là nền tảng hoàn toàn mới nhưng chia sẻ nhiều thư viện (API) giống nền tảng .NET Framework chỉ có
+        điều các thư viện trong .NET Core có kích thước nhỏ hơn với mục đích cung cấp một mô hình lập trình và thực thi
+        ứng dụng đơn giản hơn.
+      </p>
+
+      <h3 id="muc3"><b>Khi nào lựa chọn ASP.NET Core</b></h3>
+      <p>Khi quyết định chọn ASP.NET Core, cần xác định hai câu hỏi quan trọng:</p>
+      <ul>
+        <li>Đây là lần đầu tiên bạn phát triển ứng dụng trên nền tảng .NET?
+        <li>Bạn muốn tạo một ứng dụng mới hay chuyển đổi ứng dụng đã có?
+      </ul>
+
+      <p>Nếu bạn là trường hợp đầu tiên thì ASP.NET Core là lựa chọn hoàn hảo và vì những ưu điểm của ASP.NET Core nên
+        nó
+        cũng là lựa chọn hoàn hảo nếu bạn đang cân nhắc xây dựng một ứng dụng web mới (ý đầu tiên câu hỏi thứ 2). Nếu
+        bạn
+        muốn chuyển đổi một ứng dụng sẵn có sang nền tảng ASP.NET Core thì câu chuyện lại phức tạp hơn nhiều. Các ứng
+        dụng
+        dùng ASP.NET Web Forms, SignalR hay WCF thì việc chuyển đổi là không thể, nếu các ứng dụng dùng MVC hay Web API
+        thì việc chuyển đổi đòi hỏi cập nhật thêm nhiều thông tin.</p>
+      <p>Tóm lại, nếu bạn là người mới bắt đầu phát triển một ứng dụng web dùng ASP.NET hay đang cân nhắc xây dựng một
+        ứng
+        dụng web hoàn toàn mới thì ASP.NET Core là lựa chọn hoàn hảo. Nếu ứng dụng sẵn có được xây dựng từ ASP.NET MVC,
+        Web API và Razor thì việc chuyển đổi sang ASP.NET Core là khả thi.</p>
+      <p> HTTP là giao thức cốt lõi cho việc thực thi các ứng dụng web. Do đó, trước khi tìm hiểu về cách làm việc của
+        ASP.NET Core, chúng ta cần tìm hiểu lại cách thức hoạt động của giao thức này.</p>
+
+      <h3 id="muc4"><b>HTTP Request và HTTP Response</b></h3>
+      <p>Khi người dùng thực hiện một yêu cầu bằng cách nhập một đường dẫn hay URL vào thanh địa chỉ của một trình duyệt
+        web thì yêu cầu này sẽ được gửi đến server (cũng có thể được hiểu là web server) thông qua chức năng HTTP
+        request
+        của giao thức HTTP. Tại server, yêu cầu sẽ được xử lý và server sẽ phát sinh một nội dung HTML để gửi trở lại
+        trình duyệt web thông qua chức năng HTTP response của giao thức HTTP.</p>
+      <p>Quá trình thực thi được phản ánh thông qua 4 bước như hình dưới đây:</p>
+      <img class="center" src="img/md_2.png">
+      <h3 id="muc5"><b>Cách ASP.NET Core làm việc</b></h3>
+      <p>Người dùng từ trình duyệt web muốn gửi một yêu cầu đến ứng dụng ASP.NET Core cũng phải thông qua giao thức
+        HTTP.
+        Nhưng thay vì yêu cầu được gửi trực tiếp đến server (hay web server), nó phải thông qua một reverse-proxy
+        server.
+        Hiểu một cách đơn giản, một reverse-proxy server là một phần mềm có trách nhiệm nhận và chuyển tiếp yêu cầu từ
+        người dùng đến server (hay web server). Các reverse-proxy server được công khai trên internet nhưng các web
+        server
+        thì chỉ có reverse-proxy server biết. Điều này làm tăng tính bảo mật và khả năng thực thi của các web server.
+        Phần
+        mềm reverse-proxy server trên Windows là IIS, trên Linux hay MacOS có thể là NGHINX hay Apache. Các bước thực
+        thi
+        được mô tả như hình sau đây:</p>
+      <img class="center" src="img/md_3.png">
+      Ở đây, ASP.NET Core web server là Kestrel, một web server thực thi đa nền (cross-platform). Tham khảo thêm về
+      Kestrel <a
+        href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel?view=aspnetcore-6.0">tại
+        đây</a>.
+      <h3 id="muc6"><b>Tạo và thực thi ứng dụng ASP.NET Core</b></h3>
+      <p>Tạo ứng dụng ASP.NET Core MVC trong môi trường Visual Studio 2022 Community có nhiều cách và một trong những
+        cách
+        nhanh nhất là dùng các template có sẵn. Giả sử chúng ta muốn tạo một ứng dụng ASP.NET Core MVC quản lý sách tên
+        MVCBooks, chúng ta thực hiện các bước sau:</p>
+      <p>1. Mở Visual Studio, chọn Create a new project, chọn ASP.NET Core Web App (Model-View-Controller) và nhấn Next
+      </p>
+      <img class="center" src="img/md_4.png">
+      <p>2. Đặt tên dự án trong mục Project name là MVCBooks và chọn vị trí lưu tại Location và nhấn Next:</p>
+      <img class="center" src="img/md_5.png">
+      <p>3. Trong hộp thoại kế tiếp chọn .NET 6.0 (Long Term Support), các tùy chọn khác giữ nguyên (xem hình dưới) và
+        nhấn
+        Create:</p>
+      <img class="center" src="img/md_6.png">
+      <p>Như vậy chúng ta đã hoàn thành việc tạo một ứng dụng ASP.NET Core MVC.</p>
+      <p>4. Thực thi ứng dụng ASP.NET Core MVC bằng cách nhấn vào Debug > Start Without Debugging hay Ctrl + F5.</p>
+      <img class="center" src="img/md_7.png">
+      <p>Ở đây chúng ta thấy địa chỉ là https://localhost:7170 vì chúng ta chạy trên máy chủ cục bộ (hay IIS) sẽ có tên
+        đại
+        diện là localhost. 7170 là cổng ngẫu nhiên trên các máy tính (nên sẽ khác nhau trên các máy). Trong trường hợp
+        xảy
+        ra thông báo có nội dung sau:</p>
+      <img class="center" src="img/md_8.png">
+      <p>Chúng ta chỉ việc chọn Yes để xác thực IIS Express SSL. Tiếp tục chọn Yes cho hộp thoại kế tiếp:</p>
+      <img class="center" src="img/md_9.png">
+      <h3 id="muc7"><b>Cấu trúc một dự án ASP.NET Core MVC</b></h3>
+      <img class="center" src="img/md_10.png">
+      <p>Từ cửa sổ Solution Explorer, chúng ta có thể lướt qua cấu trúc tổng thể của một dự án ASP.NET Core MVC với một
+        số
+        thành phần sau:</p>
+      <ul>
+        <li>Vị trí cao nhất trong cửa sổ Solution Explorer là thư mục gốc của dự án được lồng trong một thư mục
+          solution.
+          Visual Studio dùng khái niệm solution để làm việc với nhiều dự án, trong trường hợp này chỉ có một dự án. Tại
+          thư
+          mục này chúng ta sẽ tìm thấy một tập tin solution (có phần mở rộng .sln).
+        <li>Kế tiếp thư mục gốc dự án là tập tin quan trọng nhất của dự án, tập tin MVCBooks.csproj.
+        <li>Vì chúng ta đang dùng mô hình MVC nên chú ý tiếp theo của chúng ta sẽ là các thư mục Controllers, Models và
+          Views chứa các tập tin dùng để xây dựng dự án.
+        <li>Thư mục Properties chứa tập tin launchSettings.json kiểm soát cách Visual Studio sẽ chạy và debug ứng dụng.
+        <li>Thư mục wwwroot là thư mục đặc biệt cho phép các trình duyệt web có thể truy cập trực tiếp đến nội dung bên
+          trong nó như các tập tin CSS, JS, hình ảnh hay các tập tin HTML. Các trình duyệt sẽ không thể truy cập được
+          các
+          tập tin này nếu chúng ở bên thư mục wwwroot.
+        <li>Properties và wwwroot được xem như là hai thư mục đặc biệt, được đặt phía trên cửa sổ Solution Explorer, gần
+          mục
+          dự án và không tuân theo thứ tự các chữ cái. Phía trên hai thư mục này có hai mục đặc biệt hơn gọi là
+          Dependencies
+          và Connected Servives chứa các thành phần phụ thuộc đến dự án như các gói NuGet, các dịch vụ từ xa, các thành
+          phần
+          hướng client.
+        <li>Tập tin appsettings.json cung cấp thông tin cấu hình ứng dụng tại thời điểm thực thi hay thời điểm biên
+          dịch.
+        <li>Cuối cùng là tập tin Program.cs kiểm soát cấu hình và quá trình khởi động của ứng dụng tại thời điểm thực
+          thi.
+      </ul>
+      <h4>Tập tin dự án csproj</h4>
+      <p>Là tập tin quan trọng nhất của ứng dụng .NET nhưng trong ASP.NET Core, nội dung tập tin này được lược giản để
+        dễ đọc, dễ chỉnh sửa hơn. Ví dụ nội dung MVCBooks.csproj:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/864def69402937a2f5c9e4fb0b48536d.js"></script>
+      <p>Thuộc tính Sdk của phần tử Project xác định kiểu dự án đang xây dựng (trong trường hợp này là Web). Phần tử
+        TargetFramework xác định framework ứng dụng đang chạy, trong trường hợp này là .NET 6.0.</p>
+      <h4>Tập tin Program.cs</h4>
+      <p>Đây là cách cấu hình cơ bản cho một ứng dụng ASP.NET Core để xử lý các yêu cầu (requests) và phản hồi
+        (responses)
+        lại client. Nội dung lớp Program từ MVCBooks:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/4324871ab63158478c51f7061de2c8b0.js"></script>
+      <p>Khởi tạo một thể hiện mới của WebApplicationBuilder với các cấu hình mặc định:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/b4f4e6b9eea3c6c75cf568d1afcf9a27.js"></script>
+      <p>Thêm dịch vụ cho các controllers và views vào container. Điều này cho phép ứng dụng sử dụng MVC để xử lý HTTP
+        requests</p>
+      <script src="https://gist.github.com/hoctructuyencntt/ca510a2b29277f76604546f332226227.js"></script>
+      <p>Cấu hình pipeline xử lý HTTP request. Nếu ứng dụng không phải là môi trường phát triển (Development), sử dụng
+        trình xử lý ngoại lệ để chuyển hướng đến trang lỗi và sử dụng HSTS (HTTP Strict Transport Security) để thêm tiêu
+        đề HSTS vào các responses:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f3da2a736d494057a26f3e6f53ea8b1c.js"></script>
+      <p>Chuyển hướng tất cả HTTP requests đến HTTPS và phục vụ các tệp tĩnh như HTML, CSS, images và JavaScript từ thư
+        mục
+        web root mặc định (wwwroot)</p>
+      <script src="https://gist.github.com/hoctructuyencntt/30decb278925d23b20292900a645e9b8.js"></script>
+      <p>Kích hoạt routing, cho phép ứng dụng khớp URL của incoming requests với các actions trong controllers</p>
+      <script src="https://gist.github.com/hoctructuyencntt/81f4dbd1b1d5067b844303b700037480.js"></script>
+      <p>Thêm middleware xác thực, cho phép kiểm soát việc truy cập dựa trên các chính sách và quyền của người dùng</p>
+      <script src="https://gist.github.com/hoctructuyencntt/45e8190f86003cdeef5ad94201033174.js"></script>
+      <p>Định nghĩa một route mặc định với tên là default. Route này sẽ khớp với các URL theo mẫu
+        {controller=Home}/{action=Index}/{id?}, nơi controller và action có thể được thay thế bằng tên controller và
+        action tương ứng, và id là một tham số tùy chọn</p>
+      <script src="https://gist.github.com/hoctructuyencntt/aab95b9f199454a7a918063a19a26301.js"></script>
+
+      <h3 id="muc8"><b>Xử lý yêu cầu thông qua mô hình MVC</b></h3>
+      <p>Cách thức xử lý và hồi đáp yêu cầu người dùng đã được trình bày một cách tổng quát ở trên nhưng nếu muốn xem
+        chi
+        tiết hơn về cách mô hình MVC xử lý thì thông qua hình ảnh sau đây:</p>
+      <img class="center" src="img/md_11.png">
+      <p>Khi một yêu cầu được tạo đến trang Home/Index, MVC HomeController sẽ xử lý yêu cầu bằng cách thực thi phần
+        Index
+        action. Kết quả sẽ tạo một đối tượng ViewResult chứa dữ liệu được dùng để phát sinh nội dung HTML. Việc phát
+        sinh
+        nội dung HTML do trình thực thi Razor đảm nhiệm và trình thực thi này sẽ xác định các Razor template phù hợp.
+        Các
+        Razor template được lưu trữ trong các tập tin có phần mở rộng là cshtml được chứa trong thư mục View:</p>
+      <img class="center" src="img/md_12.png">
+      <p>Các Razor template chứa mã HTML, C# hay mã HTML phát sinh từ mã C#, tập tin _Layout.cshtml tạo ra các thành
+        phần
+        chung nhất của một trang web như header hay footer.</p>
+      <p> Như vậy, thông qua bài viết đầu tiên này, chúng ta đã có một cái nhìn tổng quan và cách tạo một ứng dụng
+        ASP.NET
+        Core MVC. Bài viết cũng trình bày lý do chọn ASP.NET Core MVC như là một lựa chọn tối ưu cho những nhà phát
+        triển
+        Web vừa mới làm quen với môi trường .NET hay đang muốn xây dựng một ứng dụng ASP.NET hoàn toàn mới.
+      </p>
+
+
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai01.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
