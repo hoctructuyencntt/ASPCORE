@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 3: Thêm một Model</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một
+        Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một
+        View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 3: Thêm một
+        Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Thêm một Model</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai02.html">Bài trước</a>
+          <a href="Bai04.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Thêm một lớp đến thư mục Models</a>
+          </li>
+          <li><a href="#muc2">Thêm Entity Framwork Core(EF Core) </a>
+          </li>
+          <li><a href="#muc3">Scaffold mô hình dữ liệu</a></li>
+          </li>
+          <li><a href="#muc4">Làm việc với Migrations</a></li>
+          <li><a href="#muc5">Mối quan hệ giữa các trang và controller</a></li>
+        </ol>
+      </div>
+      <p>Chúng ta đã <a href="Bai01.html">thêm một Controller</a> và <a href="Bai02.html">một View</a> đến dự án
+        MVCBooks. Trong bài này chúng ta sẽ thêm các lớp để quản lý
+        các đối tượng sách trong cơ sở dữ liệu và các lớp này thuộc về phần Model trong mô hình MVC.</p>
+      <p>Giống như khi làm việc với các ứng dụng trong .NET Framework, các lớp làm việc với cơ sở dữ liệu trong .NET
+        Core
+        sẽ thông qua công cụ trung gian là Entity Framework Core (EF Core). EF Core cho phép chúng ta ánh xạ giữa các
+        lớp
+        từ mã chương trình và các bảng trong cơ sở dữ liệu giúp cho việc viết mã truy cập dữ liệu dễ dàng hơn.</p>
+      <p>EF Core sẽ có các bài viết riêng trong thời gian tới nhưng tổng quan, các khái niệm trong EF Core vẫn giống EF
+        (trong .NET Framework). Tham khảo về EF (.NET Framework) <a
+          href="https://ngocminhtran.com/hoc-c-va-wpf-windows-presentation-foundation/">tại đây</a>.
+      </p>
+      <h3 id="muc1"><b>Thêm một lớp đến thư mục Models</b></h3>
+      <p>Thêm lớp Book.cs đến thư mục Models bằng cách nhấn chuột phải vào Models > Add > Class. Nội dung mặc định của
+        lớp
+        Book như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/e02ef70d3e8cd024771f532704067837.js"></script>
+      <p>Thay đổi nội dung lớp Book:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f0d92fae3e8be49708213a9d3823d4a0.js"></script>
+      <p>Thông qua lớp Books chúng ta có thể hình dung bảng Books được quản lý trong cơ sở dữ liệu quan hệ bao gồm các
+        cột
+        Id (Khóa chính), Title (Tiêu đề sách), ReleaseDate (Ngày xuất bản), Genre (Thể loại) và Price (Giá).</p>
+      <p>Thuộc tính DataType được sử dụng để xác định kiểu dữ liệu Date đến trường ReleaseDate. Với thuộc tính này:</p>
+      <ul>
+        <li>Người dùng sẽ không nhập thông tin về thời gian đến trường ReleaseDate
+        <li>Chỉ có thông tin về Date, không có Time
+      </ul>
+      <p>Thuộc tính <a
+          href="https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.datatype?view=net-8.0">DataType</a>
+        thuộc namespace <a
+          href="https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations?view=net-8.0">System.ComponentModel.DataAnnotations</a>.
+        Chi tiết hơn
+        về các chủ đề này sẽ được đề cập trong EF Core.</p>
+      <p>Dấu ? theo sau các kiểu string của biến Title và Genre xác nhận các biến này có thể nhận giá trị null. Chi tiết
+        tham khảo <a href="https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references">tại đây</a>.</a></p>
+      <h3 id="muc2"><b>Thêm Entity Framwork Core(EF Core)</b></h3>
+      <p>Từ Tools chọn NuGet Package Manager > Package Manager Console (PMC). Trong PMC thực hiện lệnh sau:</p>
+      <p><i>Install-Package Microsoft.EntityFrameworkCore.Design -Version 6.0.0</i></p>
+      <img class="center" src="img/bai03_1.png">
+      <p>Kế tiếp thực hiện lệnh:</p>
+      <p><i>Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.0</i></p>
+      <img class="center" src="img/bai03_2.png">
+      <p>Các lệnh trên cài đặt nhà cung cấp SQL Server của EF Core. Gói nhà cung cấp cài đặt gói EF Core như một sự phụ
+        thuộc. Các gói cài đặt các tiện ích cho quá trình 'scaffold' mô hình dữ liệu phần tiếp theo.</p>
+      Khái niệm “scaffolding” không quá xa lạ nếu chúng ta đã từng làm quen với EF (trong nền tảng .NET Framework). Hiểu
+      một cách đơn giản, trong nhiều dự án luôn có những đoạn mã được sử dụng lặp lại nhiều lần tại nhiều nơi khác nhau
+      với thay đổi rất ít hoặc không thay đổi gọi là Boilerplate code (https://en.wikipedia.org/wiki/Boilerplate_code ).
+      Sẽ là mất thời gian nếu mỗi lần bắt đầu một dự án mới lại phải tạo lại đoạn mã đã dùng trong dự án khác. Một kỹ
+      thuật được gọi là “scaffolding” sẽ tạo ra một khung thô (rough skeleton) hay mẫu (template) cho phép các dự án sao
+      chép một cách nhanh chóng.
+      Khi làm việc với dữ liệu, các thao tác chủ yếu sẽ là tạo dữ liệu (Create), đọc dữ liệu (Read), cập nhật dữ liệu
+      (Update) và xóa dữ liệu (Delete) và được sử dụng lặp lại trong nhiều dự án ASP.NET. Visual Studio cho phép phát
+      sinh tự động các trang thực hiện các thao tác trên dựa trên mô hình dữ liệu (trong dự án chúng ta là lớp Book) gọi
+      là scaffolding.
+      Trong Solution Explorer, nhấn chuột phải vào thư mục Controllers chọn Add > New Scaffolded Item…
+      <h3 id="muc3"><b>Scaffold mô hình dữ liệu</b></h3>
+      <p>Khái niệm 'scaffolding' không quá xa lạ nếu chúng ta đã từng làm quen với EF (trong nền tảng .NET Framework).
+        Hiểu
+        một cách đơn giản, trong nhiều dự án luôn có những đoạn mã được sử dụng lặp lại nhiều lần tại nhiều nơi khác
+        nhau
+        với thay đổi rất ít hoặc không thay đổi gọi là <a
+          href="https://en.wikipedia.org/wiki/Boilerplate_code">Boilerplate code</a>.
+        Sẽ là mất thời gian nếu mỗi lần bắt đầu một dự án mới lại phải tạo lại đoạn mã đã dùng trong dự án khác. Một kỹ
+        thuật được gọi là “scaffolding” sẽ tạo ra một khung thô (rough skeleton) hay mẫu (template) cho phép các dự án
+        sao
+        chép một cách nhanh chóng.</p>
+      <p> Khi làm việc với dữ liệu, các thao tác chủ yếu sẽ là tạo dữ liệu (Create), đọc dữ liệu (Read), cập nhật dữ
+        liệu
+        (Update) và xóa dữ liệu (Delete) và được sử dụng lặp lại trong nhiều dự án ASP.NET. Visual Studio cho phép phát
+        sinh tự động các trang thực hiện các thao tác trên dựa trên mô hình dữ liệu (trong dự án chúng ta là lớp Book)
+        gọi
+        là scaffolding.</p>
+      <p>Trong Solution Explorer, nhấn chuột phải vào thư mục Controllers chọn Add > New Scaffolded Item...</p>
+      <img class="center" src="img/bai03_3.png">
+      <p>Chúng ta có thể thấy rằng có rất nhiều các template đã được tạo sẵn (scaffolding) cho phép sử dụng nhanh chóng
+        trong các dự án ASP.NET Core. Bài viết này chúng ta sẽ chọn MVC từ khung bên trái và chọn template MVC
+        Controller
+        with views, using Entity Framework</p>
+      <img class="center" src="img/bai03_4.png">
+      <p>Nhấn nút Add. Hộp thoại xuất hiện, chọn Book (MVCBooks.Models) tại mục Model class:</p>
+      <img class="center" src="img/bai03_5.png">
+      <p>Tại mục Data context class nhấn dấu + bên phải sẽ xuất hiện hộp thoại Add Data Context và chọn giá trị mặc định
+        trong ô New data context type và nhấn nút Add:</p>
+      <img class="center" src="img/bai03_6.png">
+      <p>Các mục khác giữ mặc định:</p>
+      <img class="center" src="img/bai03_7.png">
+      <p>Nhấn nút Add sẽ diễn ra quá trình Scaffolding. Lỗi sau có thể xuất hiện:</p>
+      <img class="center" src="img/bai03_8.png">
+      <p>Lỗi trên xuất hiện khả năng là do hai phiên bản Microsoft.EntityFrameworkCore.SqlServer và
+        Microsoft.EntityFrameworkCore.Design không giống nhau. Để kiểm tra chúng ta vào cửa sổ Solution Explorer, vào
+        mục
+        Dependencies > Packages có thể chúng ta thấy hai phiên bản khác nhau ví dụ:
+        Microsoft.EntityFrameworkCore.Design (6.0.0) và Microsoft.EntityFrameworkCore.SqlServer (6.0.23). Chúng ta cần
+        cập
+        nhật lại Microsoft.EntityFrameworkCore.Design từ phiên bản 6.0.0 đến 6.0.23 (Nghĩa là cập nhật phiên bản của
+        Design theo phiên bản SqlServer).</p>
+      <p>Nếu lỗi vẫn xảy ra có thể tham khảo thêm <a
+          href="https://stackoverflow.com/questions/45906856/package-restore-failed-rolling-back-package-changes">tại
+          đây</a>.</p>
+
+      <p>Quá trình scaffolding:</p>
+      <img class="center" src="img/bai03_9.png">
+      <p>Lúc này Visual Studio sẽ tạo ra các thành phần sau:</p>
+      <p>Một thư mục Data chứa lớp MVCBooksContext.cs – lớp ngữ cảnh cơ sở dữ liệu EF Core ( EF Core database context
+        class)</p>
+      <img class="center" src="img/bai03_10.png">
+      <p>Lớp MVCBooksContext xác định các tính năng của EF Core như Create, Read, Update, Delete,…cho mô hình Book. Lớp
+        này
+        được thừa kế từ lớp Microsoft.EntityFrameworkCore.DbContext</p>
+      <script src="https://gist.github.com/hoctructuyencntt/792304a6178d72297fe3736605471b28.js"></script>
+      <p>Một thuộc tính DbSet&lt;MVCBooks.Models.Book&gt; được tạo cho một tập entity (entity set). Trong EF, một tập
+        entity
+        tương ứng một bảng (table) trong cơ sở dữ liệu quan hệ. Một tập entity chứa nhiều entity và mỗi entity tương ứng
+        với một hàng (row) trong bảng. Tên của chuỗi kết nối (connection string) được chuyển đến context bằng cách gọi
+        một phương thức trên một đối tượng DbContextOptions (options). Trong trường hợp phát triển cục bộ (local), hệ
+        thống cấu hình ASP.NET Core đọc chuỗi kết nối từ tập tin appsettings.json:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/857c643258d9189291105449eb97c154.js"></script>
+      <p>Một lớp controller gọi là BooksController.cs trong thư mục Controllers</p>
+      <img class="center" src="img/bai03_11.png">
+      <p>Các tập tin Razor (*.cshtml ) trong thư mục Views / Books </p>
+      <img class="center" src="img/bai03_12.png">
+      <p>Quá trình phát sinh tự động các thành phần này gọi là Scaffolding.</p>
+      <p>Lúc này nếu chúng ta vào Debug > Start Without Debugging sẽ truy cập trang tại địa chỉ https://localhost:7258/
+        (dùng cổng 7258). Kế tiếp truy cập đến Books theo địa chỉ https://localhost:7258/Books sẽ phát sinh lỗi</p>
+      <img class="center" src="img/bai03_13.png">
+      <p>Lỗi này yêu cầu chúng ta phải tạo một cơ sở dữ liệu và lúc này chúng ta sẽ sử dụng tính năng Migrations của EF
+        Core. Tính năng Migrations cho phép tạo cơ sở dữ liệu khớp với lớp mô hình dữ liệu trong dự án (của chúng ta là
+        lớp Book) và cập nhật lại lược đồ cơ sở dữ liệu khi mô hình dữ liệu thay đổi (ví dụ thêm hay xóa một trường
+        trong
+        lớp Book).</p>
+      <h3 id="muc4"><b>Làm việc với Migrations</b></h3>
+      <p> Bây giờ chúng ta sẽ thêm một cơ sở dữ liệu và cho phép cơ sở dữ liệu này cập nhật nếu mô hình dữ liệu thay
+        đổi. Để
+        làm điều này:</p>
+      <p>Trong mục Tools chọn NuGet Package Manager > Package Manager Console (PMC). Gõ</p>
+      <p><i>Add-Migration InitialCreate</i></p>
+      <p><i>Update-Database</i></p>
+      <p>Lệnh Add-Migration phát sinh mã tạo ra một lược đồ cơ sở dữ liệu khởi đầu. Lược đồ này dựa trên mô hình được
+        xác
+        định trong lớp MVCBooksContext. InitialCreate là tên của migration và chúng ta có thể đặt bất kỳ tên nào tùy
+        thích. Lúc này sẽ xuất hiện một thư mục Migartions trong Solution Explorer</p>
+      <img class="center" src="img/bai03_14.png">
+      <p>Lệnh Update-Database thực thi phương thức Up trong tập tin ..._InitialCreate.cs</p>
+      <img class="center" src="img/bai03_15.png">
+      <p>ASP Core được xây dựng với DI (Dependency Injection) và các dịch vụ (như EF Core DB context) phải được đăng ký
+        với
+        DI khi ứng dụng thực thi. Các thành phần yêu cầu các dịch vụ (như các trang Razor) được cung cấp các dịch vụ này
+        thông qua các tham số hàm tạo (constructor).</p>
+      <p>Trong dự án MVCBooks, một EF Core DB context được tạo tự động nhờ scaffolding (MVCBooksContext) và đăng ký nó
+        với
+        DI trong tập tin Program.cs:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/8065a321cdf4a05ce763822cfa89271a.js"></script>
+      <p>Có thể thấy rằng, lớp MVCBooksContext được đăng ký đến DI nhờ phương thức AddDbContext. Cơ sở dữ liệu và chuỗi
+        kết
+        nối được xác định từ đối tượng DbContextOptions (options).</p>
+      <p>Controller (lớp BooksController từ tập tin Controllers / BooksController.cs) sử dụng MVCBooksContext thông qua
+        tham số hàm tạo:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/38229c9b2e1cf341e7be5cda9958c9a9.js"></script>
+      <p>Lúc này, chúng ta có thể thực thi ứng dụng và gõ địa chỉ https://localhost:7258/Books </p>
+      <img class="center" src="img/bai03_16.png">
+      <p>Nhấn vào dòng Create New sẽ xuất hiện form:</p>
+      <img class="center" src="img/bai03_17.png">
+      <p>Gõ một vài thông tin</p>
+      <img class="center" src="img/bai03_18.png">
+      <p>và nhấn Create</p>
+      <img class="center" src="img/bai03_19.png">
+      <p>Bây giờ nhấn liên kết Edit sẽ xuất hiện form:</p>
+      <img class="center" src="img/bai03_20.png">
+      <p>Có thể thay đổi thông tin và nhấn Save. Nếu nhấn liên kết Details:</p>
+      <img class="center" src="img/bai03_21.png">
+      <p>Và có thể nhấn dòng Delete để xóa entity hiện có. Nhắc lại, mỗi một hàng thông tin về một cuốn sách là một
+        entity.</p>
+      <p>Chúng ta đã được thấy giao diện các trang Index, Edit, Create, Details và Delete. Các trang Razor này được tạo
+        ra trong thư mục Views / Books và chúng ta sẽ giải thích một chút về các trang này trong phần dưới. Bên cạnh đó,
+        chúng ta cần tham khảo lại bài Thêm một View.</p>
+      <h3 id="muc5"><b>Mối quan hệ giữa các trang và controller</b></h3>
+      <p>Như các bài về View và Controller đã đề cập, một controller sẽ chuyển dữ liệu hay đối tượng đến một view thông
+        qua
+        đối tượng ViewData. MVC cũng hỗ trợ chuyển các đối tượng mô hình kết buộc đến một kiểu cụ thể nào đó (còn gọi là
+        strongly typed model objects) đến một view. Cách tiếp cận này cho phép kiểm tra thời gian biên dịch đoạn mã tốt
+        hơn và cơ chế scaffolding cũng sử dụng cách tiếp cận này với lớp BooksController và các views.</p>
+      <p>Lướt qua phương thức Details từ tập tin Controllers / BooksController.cs</p>
+      <script src="https://gist.github.com/hoctructuyencntt/de686c6d922a914ced874dc7ede943ee.js"></script>
+      <p>Tham số id là dữ liệu định tuyến (route data) với kiểu có thể null (nullable type) có thể chuyển qua URL bằng
+        một
+        trong hai cách: https://localhost:44307/books/details/1 hay https://localhost:44307/books/details?id=1</p>
+      <p>biểu thức lambda được chuyển trong FirstOrDefaultAsync để chọn các entity book khớp với id và nếu một book được
+        tìm thấy, một thể hiện của lớp Book được chuyển đến Details.</p>
+      <p>Bây giờ lướt qua trang Details trong Views/Books/Details.cshtml</p>
+      <p><i>@model MVCBooks.Models.Book</i></p>
+      <p>Lệnh @model xác định kiểu của đối tượng mà view mong đợi (Book). Khi chúng ta tạo ra BooksController thì lệnh
+        @model được tự động thêm tại đầu trang Details.</p>
+      <p>Lệnh @model cho phép chúng ta truy cập đến đối tượng book được chuyển đến view. Cụ thể, trong trang Details
+        chúng
+        ta truy cập đến các thuộc tính của đối tượng Book qua các trường DisplayNameFor và DisplayFor (còn gọi là các
+        HTML
+        Helper)</p>
+      <script src="https://gist.github.com/hoctructuyencntt/e11883a024972568887d3a9ff5491a43.js"></script>
+      <p>Tương tự, chúng ta có thể xem mối quan hệ giữa các phương thức hành động (action method) trong
+        BooksController.cs
+        như Index, Create, Edit, Delete và các view tương ứng như Index.cshtml, Create.cshtml,...</p>
+      <p>Task, async, await liên quan đến lập trình không đồng bộ trong C#. Có thể tham khảo thêm <a
+          href="https://ngocminhtran.com/2020/02/12/cac-dac-trung-huu-ich-trong-c-phan-3-lap-trinh-khong-dong-bo-asynchronous-programming/">tại
+          đây</a>.</p>
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai02.html">Bài trước</a>
+          <a href="Bai04.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
