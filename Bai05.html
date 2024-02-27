@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 5: Các phương thức controller và các views</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 5: Các phương
+        thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Các phương thức controller và các views</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai04.html">Bài trước</a>
+          <a href="Bai06.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Cập nhật các thuộc tính</a>
+          </li>
+          <li><a href="#muc2">Các views</a>
+          </li>
+          <li><a href="#muc3">Các phương thức Controller</a></li>
+        </ol>
+      </div>
+      <p>Trong bài <a href="Bai04.html">làm việc với cơ sở dữ liệu</a>, chúng ta đã có được giao diện ứng dụng MVCBooks
+        tại như sau:</p>
+      <img class="center" src="img/Bai05_1.png">
+      <h3 id="muc1"><b>Cập nhật các thuộc tính</b></h3>
+      <p>Nếu để ý, cột ReleaseDate nối liền hai từ (Release và Date) sẽ không phù hợp với giao diện ứng dụng. Khắc phục
+        vấn đề này, chúng ta mở tập tin Book.cs và thêm dòng mã mới như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f7b9974ab58e6982369932473835dd08.js"></script>
+      <p>Chúng ta dùng thuộc tính Display để hiển thị trường ReleaseDate theo cách chúng ta mong muốn và trong trường
+        hợp này là hiển thị hai từ Release Date thay vì chỉ một từ (mặc định) là ReleaseDate. Thuộc tính DataType dùng
+        để xác định kiểu dữ liệu cho trường ReleaseDate như đã đề cập trong bài làm việc với cơ sở dữ liệu. Bên cạnh
+        trường ReleaseDate, chúng ta cũng sử dụng thuộc tính Column đối với trường Price quy định kiểu dữ liệu là
+        decimal với chiều dài tối đa cho giá trị trường này là 18 và phần lẻ là 2:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/b417003fc4088f21ba390917706274e6.js"></script>
+      <p>Ở đây chúng ta đang áp dụng DataAnnotations cho phép chúng ta áp dụng các luật (kiểu dữ liệu, cách hiển thị,…)
+        đến các trường của một lớp (hay mô hình dữ liệu). Cùng nhìn lại giao diện Books
+      </p>
+      <img class="center" src="img/Bai05_2.png">
+      <h3 id="muc2"><b>Các views</b></h3>
+      <p>Các chức năng Edit, Details và Delete được phát sinh bởi các Tag Helper trong ASP.NET Core. Các Tag Helper cho
+        phép các mã từ máy chủ có thể tham gia tạo và kết xuất các phần tử HTML đến các tập tin Razor, cụ thể trong dự
+        án MVCBooks đó là tập tin Views/Books/Index.cshtml</p>
+      <script src="https://gist.github.com/hoctructuyencntt/7f8be3fa0102496d2d23d2e20e7533b8.js"></script>
+      <p>(Tag Helper là một trong những tính năng mới phổ biến nhất trong ASP.NET Core. Chi tiết về Tag Helper có thể
+        tham khảo <a
+          href="https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro?view=aspnetcore-6.0">tại
+          đây</a>.)
+      </p>
+      <p>Kiểu Tag Helper cụ thể trong trường hợp này là Anchor Tag Helper sẽ phát sinh tự động các giá trị thuộc tính
+        HTML href từ các phương thức hành động trong controller (BooksController) và định tuyến đến id. Ví dụ với Edit,
+        thuộc tính asp-action sẽ phát sinh giá trị thuộc tính href đến trang Edit (/Books/Edit) và thuộc tính
+        asp-route-id sẽ định tuyến trang đến id tương ứng theo cấu hình chúng ta đã thiết lập trong tập tin Program.cs:
+      </p>
+      <script src="https://gist.github.com/hoctructuyencntt/2a0cb1edf9ced054939de7ef192a0612.js"></script>
+      <p>Mở lại trang Books sau đó nhấn chuột phải vào trình duyệt (Chrome) chọn View page source chúng ta sẽ thấy các
+        liên kết Edit, Details và Delete hàng thứ nhất và hàng thứ hai được kết xuất đến trình duyệt web như sau:</p>
+      <img class="center" src="img/Bai05_3.png">
+      <p>Chúng ta cũng có thể kiểm tra các URL của Edit, Details và Delete bằng cách đưa con trỏ chuột đến mục tương ứng
+        sẽ xuất hiện URL góc trái dưới trình duyệt</p>
+      <img class="center" src="img/Bai05_4.png">
+      <h3 id="muc3"><b>Các phương thức Controller</b></h3>
+      <p>Xét chức năng Edit, mở tập tin BooksController và tìm đến hai phương thức Edit. Phương thức đầu tiên là HTTP
+        GET Edit:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/9fe58ea8617c8c5523936e4cbb24abe1.js"></script>
+      <p>Phương thức này tìm nạp thông tin đối tượng book và điền thông tin vào biểu mẫu Edit được tạo bởi tập tin Razor
+        Edit.cshtml.</p>
+      <p>Phương thức HTTP GET Edit nhận id của đối tượng book làm tham số, tìm kiếm book dùng phương thức EF FindAsync
+        và
+        trả về đối tượng book tương ứng id đến trang Edit. Nếu book tương ứng với id không được tìm thấy, phương thức
+        NotFound() được trả về (giá trị HTTP 404).</p>
+      <p>Khi hệ thống scaffolding (Xem lại <a href="Bai04.html">Bài 4</a>, mục Scaffold mô hình dữ liệu) tạo ra trang
+        Edit, nó sẽ kiểm tra lớp Book
+        và tạo mã kết xuất các thành phần &lt;input&gt; và &lt;label&gt; cho các thuộc tính (hay trường) của lớp. Một ví
+        dụ trang Edit
+        được phát sinh bởi hệ thống scaffolding của Visual Studio cũng chính là tập tin Razor Edit.cshtml</p>
+      <script src="https://gist.github.com/hoctructuyencntt/025bb67623e175b89866647c8ae09a4c.js"></script>
+      <p>Lệnh đầu tiên là @model MVCBooks.Models.Book xác định lớp Book là mô hình mà trang Edit mong đợi. Các Tag
+        Helper
+        được sử dụng bao gồm Label Tag Helper hiển thị tên các thuộc tính hay trường như Title, ReleaseDate, Genre hay
+        Price; Input Tag Helper kết xuất các thành phần &lt;input&gt;; Validation Tag Helper hiển thị các thông điệp xác
+        thực
+        được liên kết với các thuộc tính.</p>
+      <p>Phương thức kế tiếp là HTTP POST Edit:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/025bb67623e175b89866647c8ae09a4c.js"></script>
+      <p>Phương thức này xử lý thông tin đối tượng book sau khi được thay đổi. Tham số thứ 2 sử dụng thuộc tính [Bind]
+        để bảo vệ chống lại hiện tượng được gọi là over-posting. Over-posting là hiện tượng một trường nào đó xuất hiện
+        một cách không mong đợi (có thể được chèn bởi kẻ xấu thông qua một số công cụ). Chi tiết về over-posting tham
+        khảo <a
+          href=" https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">tại
+          đây</a>.
+      </p>
+      <p>Thuộc tinh [HttpPost] xác nhận phương thức Edit này chỉ được gọi với các yêu cầu POST. Đối với các phương thức,
+        thuộc tính [HttpGet] là mặc định.</p>
+      <p>Thuộc tính [ValidateAntiForgeryToken] dùng để ngăn chặn các hình thức tấn công yêu cầu giả mạo (Cross-site
+        request
+        forgery) còn được gọi tắt là XSRF or CSRF. Thuộc tính này được đi kèm với một thẻ chống yêu cầu giả mạo
+        (anti-forgery token) được phát sinh bởi tập tin Views/Books/Edit.cshtml bằng cách dùng Form Tag Helper</p>
+      <script src="https://gist.github.com/hoctructuyencntt/be7ff2beefcf8c87c42a0a87c88088d3.js"></script>
+      <p> Hệ thống sẽ nhận các giá trị từ form và tạo một đối tượng Book. Thuộc tính ModelState.IsValid dùng để xác nhận
+        dữ
+        liệu từ form có thể được dùng để thay đổi một đối tượng Book hay không. Nếu dữ liệu hợp lệ, dữ liệu này sẽ được
+        lưu đến cơ sở dữ liệu nhờ phương thức SaveChangesAsync và hệ thống sẽ điều hướng người dùng đến phương thức
+        Index
+        của lớp BooksController để hiển thị các đối tượng Book, bao gồm các dữ liệu đã được thay đổi.</p>
+      <p>Trước khi dữ liệu form được gửi đến server, việc xác thực tính hợp lệ của dữ liệu sẽ được thực hiện tại phía
+        client (trình duyệt) và nếu dữ liệu bị lỗi thì chúng sẽ không được gửi đến server. Trong trường hợp phía client
+        tắt JavaScript và quá trình xác thực tại client không diễn ra thì phía server vẫn sẽ phát hiện dữ liệu không hợp
+        lệ và hiển thị thông điệp lỗi thông qua các Form Tag Helper.</p>
+      <img class="center" src="img/Bai05_5.png">
+      <p>Xét các phương thức của Details:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/cfb47126cfc874d7269696b08f6e8f28.js"></script>
+      <p>Hệ thống scaffolding tạo ra phương thức này với chú thích là một yêu cầu HTTP GET gồm 3 phần controller Books,
+        phương thức Details và giá trị id (5).</p>
+      <p>EF hỗ trợ phương thức Create tìm kiếm dữ liệu nhanh chóng nhờ phương thức FirstOrDefaultAsync. Nếu dữ liệu được
+        tìm thấy (một đối tượng book), phương thức sẽ hiển thị thông tin, ngược lại sẽ trả về giá trị phương thức
+        NotFound(). Đây là một đặc điểm quan trọng hỗ trợ bảo mật đề phòng một số người dùng tò mò (hay hacker) thay đổi
+        nội dung của URL đến một id của một đối tượng book không tồn tại. Nếu chúng ta không kiểm tra null, một ngoại lệ
+        sẽ phát sinh.</p>
+      <p>Xét các phương thức của Delete:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/8520cb79a0b393d79e6bedbf20135b44.js"></script>
+      <p>Phương thức HTTP GET Delete không xóa một đối tượng cụ thể nào, nó chỉ trả về một view nơi chúng ta có thể thực
+        hiện một yêu cầu xóa. Tại đây, phương thức HTTP POST tên DeleteConfirmed sẽ xóa dữ liệu.</p>
+      <p>Thông thường CLR (Common Language Runtime) yêu cầu quá tải các phương thức (có cùng tên khác danh sách tham số)
+        cho GET và POST như Create hay Edit. Tuy nhiên, Delete lại cần hai phương thức là Delete cho GET và
+        DeleteConfirmed cho POST. Có một khó khăn với cách tiếp cận này bởi vì: ASP.NET ánh xạ đến các thành phần của
+        một
+        URL đến các phương thức hành động dựa vào tên, và nếu chúng ta thay đổi tên, quá trình định tuyến (routing) sẽ
+        không thể tìm ra các phương thức đó. Giải pháp cho phương thức HTTP POST Delete là thêm thuộc tính
+        ActionName("Delete") đến theo sau HttpPost:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/e8addf3db0b011ffec743a4c0825bfc7.js"></script>
+      <p>Thuộc tính này sẽ giúp quá trình định tuyến tìm thấy phương thức DeleteConfirmed dễ dàng.
+        Chúng ta cũng có thể định nghĩa quá tải phương thức Delete (giống Create hay Edit):</p>
+      <script src="https://gist.github.com/hoctructuyencntt/68688e3c29773b89212b079fb8d72b83.js"></script>
+      <p>Với cách này, chúng ta không cần dùng thuộc tính ActionName("Delete") nhưng sẽ thêm một tham số (ví dụ notUsed)
+        đến danh sách tham số (để đảm bảo hai danh sách tham số khác nhau).</p>
+
+
+
+
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai04.html">Bài trước</a>
+          <a href="Bai06.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
