@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 6: Thêm tính năng tìm kiếm</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một
+        Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 6: Thêm tính
+        năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Thêm tính năng tìm kiếm</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai05.html">Bài trước</a>
+          <a href="Bai07.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Tìm kiếm theo Title</a>
+          </li>
+          <li><a href="#muc2">Tìm kiếm theo Genre</a>
+          </li>
+        </ol>
+      </div>
+      <p>Trong bài này, chúng ta sẽ thêm tính năng tìm kiếm đến ứng dụng MVCBooks theo Title hay Genre. Chúng ta sẽ sử
+        dụng LINQ và nếu bạn chưa quen LINQ thì có thể truy cập <a
+          href=" https://ngocminhtran.com/linq-language-integrated-query/">tại đây</a>.
+      </p>
+      <h3 id="muc1"><b>Tìm kiếm theo Title</b></h3>
+      <p>Mở tập tin BooksController.cshtml trong Controllers và tìm đến phương thức Index. Thay đổi nội dung Index như
+        sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/085448f0b822376d37c9d4959ff9ee8e.js"></script>
+      <p>Dòng mã đầu tiên chúng ta tạo một <a href="https://ngocminhtran.com/linq-language-integrated-query/">truy vấn
+          LINQ</a> để
+        chọn một đối tượng book. Nếu tham số searchString chứa thông tin tìm kiếm khác Null và khác chuỗi rỗng (kiểm tra
+        nhờ phương thức IsNullOrObject của lớp String), các đối tượng chứa thông tin (trong trường hợp này là Title)
+        trong
+        searchString sẽ được hệ thống lọc và hiển thị:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/695b162bb16532c0cd4427bdf45fdb77.js"></script>
+      <p>Có thể chạy thử ứng dụng trong trường hợp này bằng cách lọc thông tin các book có Title chứa chuỗi Habits với
+        URL: https://localhost:7267/books?searchString=Habits (cổng 7267 có thể thay bằng các cổng khác nhau phụ thuộc
+        vào các máy cá nhân)</p>
+      <img class="center" src="img/Bai06_1.png">
+      <p>Nếu thay vì dùng tham số tên searchString, chúng ta thay đổi tên tham số là id khớp với id trong cấu hình từ
+        Pogram.cs:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/b845472251e5cc6fe01cf4a4f19f86d9.js"></script>
+      <p>Phương thức Index được thay đổi lại:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f36df2f09383ddfe1619b946e9f49e2e.js"></script>
+      <p>Với việc sử dụng id trùng với cấu hình trong Program.cs, chúng ta sẽ thay đổi URL:
+        https://localhost:7267/books/Index/Habits</p>
+      <img class="center" src="img/Bai06_2.png">
+      <p>Tất nhiên chúng ta không mong muốn người dùng nhập thông tin tìm kiếm trong URL, mà chúng ta sẽ cho phép người
+        dùng tìm kiếm thông qua một giao diện (UI). Trước khi tạo giao diện, chúng ta thay đổi phương thức Index bằng
+        cách dùng lại tham số searchString</p>
+      <script src="https://gist.github.com/hoctructuyencntt/99e9f2a4a0a275e3eabb60701e1831e0.js"></script>
+      <p>
+        Mở tập tin Index.cshtml từ Views/Books và thêm đoạn mã &lt;form&gt;</p>
+      <script src="https://gist.github.com/hoctructuyencntt/ea6045b1dd2bfd95d78f2eb2d8b7603e.js"></script>
+      <p>Ở đây chúng ta tạo một form dùng Form Tag Helper. Lưu và thực thi ứng dụng, nhập từ habits trong input</p>
+      <img class="center" src="img/Bai06_3.png">
+      <p>Nhấn nút Filter sẽ cho kết quả giống các trường hợp dùng URL ở trên. Ở đây, chúng ta không cần dùng [HttpPost]
+        cho
+        phương thức Index, đơn giản vì chúng ta chỉ muốn lọc thông tin có sẵn và không làm thay đổi trạng thái của ứng
+        dụng.</p>
+      <p>Xem lại kết quả tìm kiếm và chú ý URL</p>
+      <img class="center" src="img/Bai06_4.png">
+      <p>URL không thay đổi khi nhấn Filter và điều này sẽ khó khăn trong trường hợp chúng ta muốn bookmark kết quả tìm
+        kiếm hay chia sẻ kết quả cho người khác qua URL.</p>
+      <p>Chỉnh sửa hạn chế này bằng cách dùng HTTP GET khi thực hiện yêu cầu đến server thông qua việc thêm method = get
+        đến form:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f86423dac81cdb8eaf9c1764da613a9c.js"></script>
+      <p>Thực thi lại ứng dụng, gõ habits và nhấn Filter</p>
+      <img class="center" src="img/Bai06_5.png">
+      <p>Lúc này URL xuất hiện tham số searchString cho phép chúng ta bookmark hay chia sẻ đến người khác.</p>
+
+      <h3 id="muc2"><b>Tìm kiếm theo Genre</b></h3>
+      <p>Thêm một lớp tên BookGenreViewModel.cs đến thư mục Models. Thay đổi nội dung lớp như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/c68f730e0782def01816d4a661b56c7c.js"></script>
+      <p>Lớp này chứa:</p>
+      <ul>
+        <li>Một danh sách các đối tượng Book
+        <li>Một SelectList chứa danh sách các Genre và cho phép người dùng chọn một genre từ danh sách
+        <li>BookGenre chứa genre được chọn
+        <li>SearchString chứa thông tin người dùng nhập từ Input Textbox
+      </ul>
+      <p>Kế tiếp, thay đổi nội dung phương thức Index trong BooksController.cs như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/9a240f0c368a09ec08f044952f503afc.js"></script>
+      <p>Đoạn mã đầu tiên chúng ta dùng một truy vấn LINQ để nhận toàn bộ các Genre từ cơ sở dữ liệu:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/f0ecb14cb816e2ac077ba9ed0ff2bdc8.js"></script>
+      <p>Một SelectList các Genre được tạo từ các Genre khác nhau nhận được từ cơ sở dữ liệu:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/6cd2e819bd106356ec92617e07c2221e.js"></script>
+      <p>Khi người dùng tìm kiếm, thông tin người dùng gõ sẽ được giữ lại trong ô tìm kiếm (Input Textbox). Cuối cùng,
+        giao diện ứng dụng hay nội dung tập tin Index.cshtml được thay đổi như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/371cff3ab1ae946d1e04488819b7dc23.js"></script>
+      <p>Chúng ta sử dụng DisplayNameFor là một HTML Helper kết hợp với các biểu thức lambda để tham chiếu đến giá trị
+        các
+        thuộc tính của đối tượng Book bao gồm Title, ReleaseDate, Genre và Price. Chạy ứng dụng</p>
+      <img class="center" src="img/Bai06_6.png">
+      <p>Chọn Novel tại mục All và nhấn nút Filter</p>
+      <img class="center" src="img/Bai06_7.png">
+      <p>Kiểm tra tìm kiếm thông tin Book theo Title, theo Genre hay cả hai.</p>
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai05.html">Bài trước</a>
+          <a href="Bai07.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
