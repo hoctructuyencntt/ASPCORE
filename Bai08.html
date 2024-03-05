@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 08: Hợp lệ dữ liệu người dùng</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 8: Hợp lệ dữ
+        liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 9: Tạo một Web API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Hợp lệ dữ liệu người dùng</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai07.html">Bài trước</a>
+          <a href="Bai09.html">Bài tiếp theo</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Vì sao cần thêm các luật hợp lệ (Validation rules)</a>
+          </li>
+          <li><a href="#muc2">Thêm các luật hợp lệ (Validation rules) đến lớp Book</a>
+          </li>
+          <li><a href="#muc3">Kiểm tra ứng dụng</a>
+        </ol>
+      </div>
+      <p>Một trong những nội dung quan trọng nhất khi viết ứng dụng ASP.NET Core MVC là hợp lệ dữ liệu người dùng và
+        chúng ta phải thực hiện điều này theo nguyên tắc DRY (Don’t Repeat Yourself). MVC và EF Core Code First hỗ trợ
+        hợp lệ dữ liệu theo nguyên tắc DRY, có nghĩa là, chúng ta sẽ khai báo các luật hợp lệ dữ liệu một lần và sử dụng
+        ở nhiều nơi trong chương trình.</p>
+      <h3 id="muc1"><b>Vì sao cần thêm các luật hợp lệ (Validation rules)</b></h3>
+      <p>Như đã từng đề cập, việc hợp lệ dữ liệu người dùng sẽ thực hiện qua hai mức người dùng (client) và máy chủ
+        (server). Tại mức người dùng hay trình duyệt web, hợp lệ dữ liệu diễn ra tự động nhờ chương trình JavaScript. Ví
+        dụ thực thi ứng dụng và mở form Create bằng cách nhấn chuột vào liên kết Create New, sau đó nhập vài kí tự vào
+        trường Price sẽ xuất hiện thông điệp lỗi:</p>
+      <img class="center" src="img/Bai08_1.png">
+      <p>Bây giờ giả sử chúng ta tắt trình JavaScript trên trình duyệt (sử dụng Chrome vào More tools > Developer
+        tools,
+        nhấn tổ hợp phím Ctr + Shift + P sau đó gõ chữ javascript vào mục Run, chọn Disable JavaScript)</p>
+      <img class="center" src="img/Bai08_2.png">
+      <p>Khởi động lại trang Create sẽ thấy xuất hiện dấu hiệu JavaScript đã bị tắt:</p>
+      <img class="center" src="img/Bai08_3.png">
+      <p>Nếu sử dụng MS Edge cũng thực hiện tương tự.</p>
+      <p>Nhập lại vài từ vào trường Price sẽ không xuất hiện bất cứ thông điệp nào. Quá trình hợp lệ dữ liệu không diễn
+        ra
+        tại mức người dùng do chúng ta đã tắt JavaScript nhưng dữ liệu này sẽ được hợp lệ tại mức máy chủ, cụ thể, nếu
+        chúng ta nhấn nút Create sẽ xuất hiện thông báo lỗi:</p>
+      <img class="center" src="img/Bai08_4.png">
+      <p>Giao diện sẽ phát sinh các thông báo khi dữ liệu người dùng không hợp lệ mà không cần cập nhật thêm bất cứ đoạn
+        mã
+        nào đến controller hay view. Nguyên nhân là do phương thức ModelState.IsValid trong phương thức Create:
+      </p>
+      <script src="https://gist.github.com/hoctructuyencntt/7746e80bf0eb6f84b6f5fb0677fc2d7c.js"></script>
+      <h3 id="muc2"><b>Thêm các luật hợp lệ (Validation rules) đến lớp Book</b></h3>
+      <p> Namespace DataAnnotations cung cấp một tập các thuộc tính hỗ trợ hợp lệ dữ liệu đến một lớp hay các thuộc tính
+        của
+        lớp. Trong các bài trước chúng ta đã làm quen với các thuộc tính [DataType], [Display] và [Column]; trong bài
+        này
+        chúng ta sẽ làm quen với các thuộc tính [Required], [StringLength], [RegularExpression] và [Range].</p>
+      <p> Mở tập tin Models / Book.cs và thêm các nội dung mới đến lớp Book (in đậm) như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/0887f412e1c1220c3db05296f770e762.js"></script>
+      <p>Các thuộc tính mới được thêm đến các trường của lớp Book với mục đích:</p>
+      <ul>
+        <li>Thuộc tính [Required] được thêm đến các trường của lớp Book nhằm bắt buộc người dùng phải nhập thông tin cho
+          tất
+          cả các trường này. Nếu người dùng để trống (ví dụ trường Genre), một cảnh báo sẽ xuất hiện (ví dụ The Genre
+          field
+          is required.) Một số trường có kiểu dữ liệu decimal, int, float, DateTime mặc định luôn luôn được yêu cầu nên
+          không cần dùng thuộc tính [Required].
+        <li>Thuộc tính [StringLength] quy định chiều dài tối đa của trường được áp dụng. Thuộc tính này có thể sử dụng
+          với
+          thuộc tính MinimumLength để quy định chiều dài tối thiểu của trường. Ví dụ trường Title sẽ có chiều dài tối đa
+          (số
+          ký tự) là 60 và chiều dài tối thiểu là 3.
+        <li>Thuộc tính [Range] xác định giá trị thuộc một phạm vi xác định, ví dụ từ 1 đến 100.
+        <li>Thuộc tính [RegularExpression] đi kèm với một biểu thức thường quy quy định các kí tự nào người dùng được
+          phép
+          nhập vào. Biểu thức thường quy có thể tham khảo tại https://ngocminhtran.com/regular-expression-co-ban/ Chúng
+          ta
+          áp dụng thuộc tính này đến trường Genre và Rating:
+          <ul>
+            <li>Đối với trường Genre, yêu cầu bắt buộc là ký tự đầu tiên phải viết hoa và chỉ cho phép các kí tự (a…z,
+              A…Z) và
+              khoảng trắng. Số và các kí tự đặc biệt (ví dụ dấu -) không được phép. Ví dụ: Abc là hợp lệ; abc và Ab-12
+              là không
+              hợp lệ.
+            <li>Đối với trường Rating, yêu cầu bắt buộc là ký tự đầu tiên phải viết hoa, các kí tự (a…z, A…Z), khoảng
+              trắng, số
+              và các kí tự đặc biệt (ví dụ dấu -) đều được được phép sử dụng. Ví dụ: Abc, Ab-12 là hợp lệ. abc không hợp
+              lệ.
+          </ul>
+        </li>
+        <li>Trường Price áp dụng thuộc tính [DataType(DataType.Currency)] nên khi hiển thị sẽ xuất hiện dấu $ bên trái
+          (mặc
+          định).
+      </ul>
+      <h3 id="muc3"><b>Kiểm tra ứng dụng</b></h3>
+      <p>Thực thi ứng dụng (chú ý mở lại JavaScript nếu còn tắt )</p>
+      <img class="center" src="img/Bai08_5.png">
+      <p>Nhấn liên kết Create New. Kiểm tra trường Title và Genre:</p>
+      <img class="center" src="img/Bai08_6.png">
+      <p>Kiểm tra các trường còn lại:</p>
+      <img class="center" src="img/Bai08_7.png">
+      <p>Cũng cần chú ý rằng có thể ứng dụng không cho phép chúng ta nhập dấu phẩy trong trường Price. Tham khảo các
+        bước
+        xử lý <a href="https://github.com/dotnet/AspNetCore.Docs/issues/4076#issuecomment-326590420">tại đây</a>.</p>
+      <p>Chúng ta có thể kiểm tra lại bằng cách tắt JavaScript trên trình duyệt.</p>
+      <p>Input Tag Helper dùng các thuộc tính DataAnnotations và tạo ra các thuộc tính HTML cần thiết cho quá trình hợp
+        lệ
+        phía người dùng (nhờ jQuery hay JavaScript). Controller và các view không cần biết các luật hợp lệ là gì, tất cả
+        chỉ tập trung tại lớp Book. Khi chúng ta cần thay đổi một số luật hợp lệ, chỉ cần thực hiện trên lớp Book. Các
+        luật được tạo ra ở một nơi (lớp Book) và sử dụng ở nhiều nơi mà không cần phải lo lắng các thành phần khác. Điều
+        này cho phép chúng ta dễ dàng bảo trì và mở rộng ứng dụng trong tương lai. Đây chính là nguyên tắc DRY.
+        Hợp lệ dữ liệu người dùng cũng được thực hiện trên trang (hay form) Edit.</p>
+      <p>Đến thời điểm này chúng ta có thể xuất bản ứng dụng web ASP.NET Core MVC.</p>
+
+
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai07.html">Bài trước</a>
+          <a href="Bai09.html">Bài tiếp theo</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
