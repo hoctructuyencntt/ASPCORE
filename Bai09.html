@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<title>Bài 09: Tạo một Web API với ASP.NET Core</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="font.css">
+<link rel="stylesheet" href="font-awesome.min.css">
+<style>
+  i {
+    color: yellow;
+  }
+
+  #myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: pink;
+    color: black;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+  }
+
+  #myBtn:hover {
+    background-color: #555;
+  }
+
+  .w3-main a {
+    background-color: red;
+  }
+
+  .pagination {
+    display: inline-block;
+  }
+
+  .pagination a {
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    background-color: gray;
+  }
+
+  .pagination a.active {
+    background-color: gray;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Raleway", sans-serif
+  }
+
+
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table td,
+  table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  /*
+  #tab tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+*/
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+
+  .w3-code a {
+    background-color: transparent;
+    text-decoration: none;
+    color: blue;
+  }
+
+  .video-container {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-container::after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+</style>
+
+<body class="w3-black w3-content" style="max-width:1600px">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <div class="w3-container">
+      <a href="#" style="text-decoration: none;" onclick="w3_close()"
+        class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="Đóng"> X </a>
+      <!--<h4><b>Giáo trình</b></h4>-->
+    </div>
+    <div class="w3-bar-block">
+      <a href="Baimodau.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài mở đầu:
+        Giới thiệu ASP.NET Core MVC</a>
+      <a href="Bai01.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 1: Thêm một Controller</a>
+      <a href="Bai02.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 2: Thêm một View</a>
+      <a href="Bai03.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 3: Thêm một Model</a>
+      <a href="Bai04.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 4: Cơ sở dữ liệu</a>
+      <a href="Bai05.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 5: Các phương thức
+        Controller và các View</a>
+      <a href="Bai06.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 6: Thêm tính năng tìm
+        kiếm</a>
+      <a href="Bai07.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 7: Thêm một trường (thuộc
+        tính) mới</a>
+      <a href="Bai08.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding">Bài 8: Hợp lệ dữ liệu người
+        dùng</a>
+      <a href="Bai09.html" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal">Bài 9: Tạo một Web
+        API với
+        ASP.NET Core</a>
+    </div>
+  </nav>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+    title="close side menu" id="myOverlay">=</div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:300px">
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Lên đầu trang</button>
+    <!-- Header -->
+    <header id="portfolio">
+      <!--<a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;"
+          class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>-->
+      <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()">=</span>
+      <div class="w3-container">
+        <h1><b>Tạo một Web API với ASP.NET Core</b></h1>
+        <div class="w3-section w3-bottombar"></div>
+      </div>
+    </header>
+
+    <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai08.html">Bài trước</a>
+        </div>
+      </div>
+      <div class="w3-code notranslate htmlHigh">
+        <h4>Nội dung bài học</h4>
+        <ol>
+          <li><a href="#muc1">Tạo một dự án Web API với Controller</a>
+          </li>
+          <li><a href="#muc2">Kiểm tra API</a>
+          </li>
+          <li><a href="#muc3">Cập nhật luanchURL</a>
+
+          <li><a href="#muc4">Thêm một lớp dữ liệu (model class)</a></li>
+          <li><a href="#muc5">Thêm lớp ngữ cảnh cơ sở dữ liệu (database context)</a>
+            <ul>
+              <li><a href="#muc5_1">Thêm EF Core đến dự án thông qua các gói Nuget</a>
+              <li><a href="#muc5_2">Thêm lớp ngữ cảnh</a>
+              <li><a href="#muc5_3">Đăng ký lớp ngữ cảnh</a>
+            </ul>
+          </li>
+          <li><a href="#muc6">Scaffold một controller</a></li>
+          <li><a href="#muc7">PostTodoItem</a></li>
+          <li><a href="#muc8">Cài đặt Postman</a></li>
+          <li><a href="#muc9">Kiểm tra phương thức PostTodoItem dùng Postman</a></li>
+          <li><a href="#muc10">Kiểm tra phương thức HTTP GET</a></li>
+          <li><a href="#muc11">Ngăn chặn hiện tượng over-posting</a></li>
+        </ol>
+      </div>
+      <h3 id="muc1"><b>Tạo một dự án Web API với Controller</b></h3>
+      <p>Tạo ứng dụng ASP.NET Core MVC trong môi trường Visual Studio 2022 Community có nhiều cách và một trong những
+        cách
+        nhanh nhất là dùng các template có sẵn chúng ta thực hiện các bước sau:</p>
+      <p>1. Mở Visual Studio, chọn Create a new project, gõ Web API trên ô tìm kiếm, chọn ASP.NET Core Web API (chọn
+        ngôn
+        ngữ C#) và nhấn Next</p>
+      <img src="img/bai09_1.png" class="center">
+      <p>2. Đặt tên dự án trong mục Project name là TodoApi và chọn vị trí lưu tại Location và nhấn Next:
+      </p>
+      <img src="img/bai09_2.png" class="center">
+      <p>3. Trong hộp thoại kế tiếp giữ nguyên các mặc định (xem hình dưới) và nhấn Create:</p>
+      <img src="img/bai09_3.png" class="center">
+      <h3 id="muc2"><b>Kiểm tra API</b></h3>
+      <p> Dự án đã có sẵn một API gọi là WeatherForecast. Có thể thực thi bằng cách chọn Debug > Start Without Debugging
+        (Ctrl + F5) trang Swagger /swagger/index.html xuất hiện như sau:</p>
+      <img src="img/bai09_4.png" class="center">
+      <p>Swagger là một công cụ giúp tự động tạo ra tài liệu API và cung cấp một cách để thử nghiệm các endpoint API mà
+        không cần triển khai chúng. Chi tiết tham khảo thêm <a
+          href="https://learn.microsoft.com/en-us/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-6.0 ">tại
+          đây</a>.</p>
+      <p>Chọn GET > Try it out</p>
+      <img src="img/bai09_5.png" class="center">
+      <p>Nhấn nút Execute. Trang web hiển thị:</p>
+      <ul>
+        <li>Lệnh Curl (<a href="https://curl.se/">https://curl.se/</a> ) để kiểm thử WeatherForecast API.
+        <li>Đường dẫn URL để kiểm thử WeatherForecast API.
+        <li>Mã phản hồi (response code), nội dung (body), và tiêu đề (header).
+        <li>Hộp danh sách thả xuống chứa các loại phương tiện (media types), giá trị (value) và lược đồ (schema) minh
+          họa.
+      </ul>
+      <img src="img/bai09_6.png" class="center">
+      <p>Sao chép nội dung tại Request URL và dán trên trình duyệt web sẽ trả về nội dung JSON như sau:</p>
+      <img src="img/bai09_7.png" class="center">
+      <h3 id="muc3"><b>Cập nhật luanchURL</b></h3>
+      <p>Trong cửa sổ Solution Explorer tại mục Propertes chọn launchSettings.json và thay nội dụng của thuộc tính
+        launchURL từ swagger sang api/todoitems</p>
+      <img src="img/bai09_8.png" class="center">
+      <p>Bởi vì Swagger sẽ được loại bỏ, đoạn mã trước đó thay đổi URL được khởi chạy sang phương thức GET của bộ điều
+        khiển được thêm vào trong các phần sau.</p>
+      <h3 id="muc4"><b>Thêm một lớp dữ liệu (model class)</b></h3>
+      <p>Các lớp dữ liệu thể hiện các thuộc tính các đối tượng dữ liệu mà ứng dụng quản lý. Trong dự án TodoApi này, đối
+        tượng dữ liệu của chúng ta là các công việc phải thực hiện (To-do items) bao gồm các thuộc tính Id (định danh
+        công
+        việc, tương đương khóa chính trong cơ sở dữ liệu quan hệ), Name (tên công việc) và IsComplete (trạng thái phản
+        ánh
+        công việc đã hoàn thành hay chưa). Với đối tượng công việc này, chúng ta sẽ tạo lớp TodoItem:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/e11bfb4d6663fa8dcdbdd46396f4109f.js"></script>
+      <p>Thêm lớp TodoItem đến một thư mục tên Models của dự án theo các bước sau:</p>
+      <p>1. Trong cửa sổ Solution Explorer, nhấn chuột phải tại dự án TodoApi</p>
+      <img src="img/bai09_9.png" class="center">
+      <p>Chọn Add > New Folder để thêm một thư mục và đặt tên là Models</p>
+      <img src="img/bai09_10.png" class="center">
+      <p> 2. Tại thư mục Models nhấn chuột phải chọn Add > Class để thêm một lớp mới và đặt tên là TodoItem. Nhấn Add.
+        Thay
+        đổi nội dung tập tin TodoItem.cs bằng nội dung:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/dc3ee666b1d10ab3f5468f3387a92111.js"></script>
+      <h3 id="muc5"><b>Thêm lớp ngữ cảnh cơ sở dữ liệu (database context)</b></h3>
+      <p>Lớp ngữ cảnh cơ sở dữ liệu là lớp chính của EF (Entity Framework) kết nối giữa lớp dữ liệu (TodoItem) và cơ sở
+        dữ
+        liệu. Lớp này được tạo bằng cách kế thừa từ lớp Microsoft.EntityFrameworkCore.DbContext. Các bước thêm lớp ngữ
+        cảnh tiến hành như sau:</p>
+      <h4 id="muc5_1"><b>Thêm EF Core đến dự án thông qua các gói Nuget:</b></h4>
+      <ul>
+        <li>Từ Tool chọn NuGet Package Manager > Manage NuGet Packages for Solution.
+        <li>Chọn tab Browse và nhập Microsoft.EntityFrameworkCore.InMemory trong ô tìm kiếm và Enter
+        <li>Chọn Microsoft.EntityFrameworkCore.InMemory bên khung trái, chọn Project bên khung phải và nhấn Install. Chú
+          ý
+          trong mục Version là 6.0.0 đối với dự án này.
+      </ul>
+      <img src="img/bai09_11.png" class="center">
+      <h4 id="muc5_2"><b>Thêm lớp ngữ cảnh</b></h4>
+      <p>Nhấn chuột phải vào thư mục Models chọn Add > Class và đặt tên lớp là TodoContext. Nhấn Add và thay đổi nội
+        dung
+        tập tin TodoContext.cs như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/aac15bf35d0e808c1a48120bb7097ff1.js"></script>
+      <h4 id="muc5_3"><b>Đăng ký lớp ngữ cảnh</b></h4>
+      <p>Trong ASP.NET Core, các dịch vụ như DBContext phải được đăng ký với bộ chứa DI (Dependency Injection
+        container).
+        Bộ chứa này cung cấp dịch vụ đến các controller. Cập nhật nội dung Program.cs:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/e93f1a09c4e21d00e99006e58095b6e1.js"></script>
+      <p> Đoạn mã trên xóa các lời gọi SWagger, thêm các using, đăng ký DBContext đến bộ chứa DI và xác nhận ngữ cảnh cơ
+        sở
+        dữ liệu là một cơ sở dữ liệu bộ nhớ trong (in-memory database).</p>
+
+      <h3 id="muc6"><b>Scaffold một controller</b></h3>
+      <p> Để scaffold một controller chúng ta thực hiện các bước sau:</p>
+      <p>1. Nhấn chuột phải vào thư mục Controllers chọn Add > New Scaffolded Item. Kế tiếp chọn API Controller with
+        actions, using Entity Framework và chọn Add.</p>
+      <p>2. Trong hộp thoại Add API Controller with actions, using Entity Framework:</p>
+      <ul>
+        <li>Chọn TodoItem (TodoApi.Models) trong Model class.
+        <li>Chọn TodoContext (TodoApi.Models) trong Data context class.
+        <li>Chọn Add.
+      </ul>
+      <img src="img/bai09_12.png" class="center">
+      <p>Tập tin mới tên TodoItemsController.cs được tạo ra</p>
+      <script src="https://gist.github.com/hoctructuyencntt/af15923d66e6563273a09c3362edbdc3.js"></script>
+      <p>Thuộc tính [ApiController] được sử dụng để đánh dấu cho lớp TodoItemsController xác nhận đây là controller
+        tương ứng với yêu cầu Web API.
+        Đường dẫn URL cho mỗi phương thức trong lớp được xây dựng như sau:</p>
+      <ul>
+        <li>Bắt đầu với thuộc tính [Route("api/[controller]")]
+        <li>Thay thế [controller] trong [Route(…)] bằng tên một controller cụ thể. Trong trường hợp này, tên controller
+          là tên lớp (hay tập tin) bỏ đi phần Controller, tức là TodoItems. Vì điều này, chúng ta thường thấy các chú
+          thích URL trên các phương thức như GET: api/TodoItems, PUT: api/TodoItems/5,...
+      </ul>
+      <h3 id="muc7"><b>PostTodoItem</b></h3>
+      <p>Đây là phương thức HTTP POST vì được đánh dấu bởi thuộc tính [HttpPost]. Phương thức nhận giá trị từ nội dung
+        của
+        yêu cầu HTTP.</p>
+      <script src="https://gist.github.com/hoctructuyencntt/ac542427bae700b6915751d1127120b7.js"></script>
+      <p>Phương thức CreateAtAction:</p>
+      <ul>
+        <li>Trả về mã HTTP 201 nếu thành công. HTTP 201 là hồi đáp chuẩn (standard response) cho một phương thức HTTP
+          POST
+          để tạo ra một tài nguyên mới trên máy chủ.
+        <li>Thêm một Location header (https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location ) đến hồi đáp.
+          Phần
+          header này xác định URI của một to-do item được tạo ra.
+        <li>Tham chiếu hành động GetTodoItem để tạo ra URI của Location header. Ở đây sử dụng chuỗi tên hành động
+          GetTodoItem – một dạng mã cứng (hard-coding).
+      </ul>
+      <p>Chúng ta sẽ sử dụng từ khóa nameof trong C# để tránh việc sử dụng mã cứng trong phương thức CreateAtAction khi
+        tham chiếu đến hành động GetTodoItem. Cập nhật lại lệnh return như sau:</p>
+      <script src="https://gist.github.com/hoctructuyencntt/5b47719564a98fe319123a497f9f68f4.js"></script>
+
+      <h3 id="muc8"><b>Cài đặt Postman</b></h3>
+      <p>Web API có thể được kiểm tra dùng Postman hay HttpRepl. Dùng HttpRepl có thể tham khảo <a
+          href="https://learn.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-6.0&tabs=visual-studio">tại
+          đây</a>.
+      </p>
+      <p>Trong dự án này chúng ta sẽ dùng Postman để kiểm tra Web API. Truy cập <a
+          href=" https://www.postman.com/downloads/"> https://www.postman.com/downloads/ </a>để
+        tải
+        và cài Postman.</p>
+      <p> Mở Postman, đăng nhập (tạo tài khỏan hay đăng nhập qua Google), thực hiện vài câu hỏi sẽ đến giao diện sau:
+      </p>
+      <img src="img/bai09_13.png" class="center">
+
+      <h3 id="muc9"><b>Kiểm tra phương thức PostTodoItem dùng Postman</b></h3>
+
+      <p>Chúng ta có thể kiểm tra cách hoạt động của phương thức PostTodoItem thông qua Postman theo các bước sau:</p>
+      <p> 1. Tạo một yêu cầu mới bằng cách nhấn vào dấu + bên phải mục Requests</p>
+      <img src="img/bai09_14.png" class="center">
+      <p>Chọn phương thức POST</p>
+      <img src="img/bai09_15.png" class="center">
+      <p>Thực thi ứng dụng TodoApi dùng Ctrl + F5. Sao chép URL trên trình duyệt https://localhost:7044/api/todoitems và
+        dán vào ô bên cạnh lệnh POST trong Postman:</p>
+      <img src="img/bai09_16.png" class="center">
+      <p>Chú ý cổng 7044 là cổng thực thi phụ thuộc vào các máy khác nhau. Ứng dụng trong bài viết này thực thi tại cổng
+        7044 (Xem kiểm tra API WeatherForecast ở trên).</p>
+      <p>Kế tiếp chọn tab Body, chọn nút Raw và chọn kiểu dữ liệu là JSON:</p>
+      <img src="img/bai09_17.png" class="center">
+      <p>Nhập nội dung sau trong ô trống:</p>
+      <img src="img/bai09_18.png" class="center">
+      <p>Nhấn nút Send, kết quả từ khung Response bên dưới:</p>
+      <img src="img/bai09_19.png" class="center">
+      <p>Nhấn nút Disable SSL Verification:</p>
+      <img src="img/bai09_20.png" class="center">
+      <p>Chọn Header:</p>
+      <img src="img/bai09_21.png" class="center">
+      <p>Sao chép phần VALUE bên phải của Location là URL: https://localhost:7044/api/TodoItems/1 và dán vào ô URL của
+        Postman và đổi phương thức từ POST sang GET:</p>
+      <img src="img/bai09_22.png" class="center">
+      <p>Nhấn Send. Bây giờ chúng ta có thể kiểm tra URL https://localhost:7044/api/TodoItems trên trình duyệt web</p>
+      <img src="img/bai09_23.png" class="center">
+      <p>Và https://localhost:7044/api/TodoItems/1 </p>
+      <img src="img/bai09_24.png" class="center">
+      <p> Sẽ cho ra cùng kết quả.</p>
+      <h3 id="muc10"><b>Kiểm tra phương thức HTTP GET</b></h3>
+      <p>Ở trên, sau khi thực hiện phương thức POST với Postman, chúng ta thực hiện phương thức GET sẽ cho ra cùng kết
+        quả.
+        Tuy nhiên, nếu ứng dụng ngừng hay bắt đầu lại thì phương thức GET sẽ không trả về giá trị nào. Nguyên nhân vì
+        ứng
+        dụng của chúng ta quản lý dữ liệu bộ nhớ trong sẽ mất khi ứng dụng tắt hay khởi động lại. Muốn GET trả về dự
+        liệu,
+        hãy thực hiện lại POST.</p>
+      <p>Để ý trong tập tin TodoItemControllers.cs có hai phương thức dùng cho HTTP GET là GetTodoItems và GetTodoItem:
+      </p>
+      <script src="https://gist.github.com/hoctructuyencntt/6a99289f2b128eeaca6a3e9e2dc0e229.js"></script>
+      <p>Mỗi TodoItem sẽ được xác định bởi một Id duy nhất và phương thức GetTodoItem nhận item theo Id này.</p>
+      <p>Kiểu của giá trị trả về cho hai phương thức GET là kiểu <a
+          href="https://docs.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-3.1#actionresultt-type">ActionResult
+          &lt;T&gt;</a>. ASP.NET Core sẽ tự động chuyển dữ liệu sang dạng JSON và viết sang nội dung của thông điệp hồi
+        đáp. Mã hồi
+        đáp cho kiểu dữ liệu này là 200 và giả sử không có các ngoại lệ chưa được xử lý. Các ngoại lệ chưa được xử lý
+        được chuyển sang các lỗi có mã 5xx. Trường hợp phương thức GetTodoItem không tìm thấy đối tượng TodoItem có Id
+        được yêu cầu, mã 400 sẽ được trả về. Một vài mã trạng thái phổ biến thường gặp:</p>
+      <img src="img/bai09_25.png" class="center">
+      <h4> Kiểm tra phương thức PutTodoItem và DeleteTodoItem</h4>
+      <p>PutTodoItem tương tự PostTodoItem ngoại trừ việc sử dụng HTTP PUT. Cách kiểm tra PutTodoItem (chọn PUT) và
+        DeleteTodoItem (chọn DELETE) trong Postman tương tự GET và POST. Chú ý phải có dữ liệu trước khi thực hiện, nếu
+        chưa có thì cần cung cấp dữ liệu bằng cách thực hiện POST (xem lại ở trên).</p>
+
+      <h3 id="muc11"><b>Ngăn chặn hiện tượng over-posting</b></h3>
+      <p> Lớp dữ liệu trong ứng dụng của chúng ta là TodoItem và khi một ứng dụng được triển khai trong thực tế, một tập
+        con
+        của lớp dữ liệu được sử dụng thay thế với mục đích hạn chế dữ liệu đầu vào và dữ liệu trả về để tăng cường tính
+        bảo mật cho ứng dụng. Kỹ thuật này được gọi là Data Transfer Object (DTO). DTO có thể được dùng để:</p>
+      <ul>
+        <li>Ngăn chặn over-posting. Over-posting là hiện tượng một trường nào đó xuất hiện một cách không mong đợi (có
+          thể
+          được chèn bởi kẻ xấu thông qua một số công cụ). Chi tiết về over-posting tham khảo <a
+            href="https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/implementing-basic-crud-functionality-with-the-entity-framework-in-asp-net-mvc-application#overpost">tại
+            đây</a>.
+        <li>Ẩn các thuộc tính mà khách hàng không được phép xem.
+        <li>Bỏ qua một số thuộc tính để giảm kích thước <a
+            href="https://vi.wikipedia.org/wiki/Payload_m%C3%A1y_t%C3%ADnh">payload</a>.
+        <li>Làm phẳng các đồ thị đối tượng có chứa các đối tượng lồng nhau. Đồ thị đối tượng phẳng có thể thuận tiện hơn
+          cho
+          khách hàng.
+      </ul>
+      <div class="w3-center">
+        <div class="pagination">
+          <a href="Bai08.html">Bài trước</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- End page content -->
+  </div>
+
+  <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"></script>
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Phần button top
+    var mybutton = document.getElementById("myBtn");
+
+
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+</body>
+
+</html>
